@@ -1,0 +1,36 @@
+==================
+== BashReq v0.1 ==
+==================
+
+by Philipp Giebel <stimpy@kuehlbox.wtf>
+
+* web:  http://kuehlbox.ws
+* bbs:  telnet://kuelbox.ws
+* fido: 2:240/5853
+* git:  https://github.com/stimpy23/bbs/bashreq
+
+
+=== USE ===
+This is a very simple bash script for processing file requests with binkd 
+on a linux box.
+It supports regular files and file-magics.
+
+
+=== SETUP ===
+1. Change the line starting with "CONF" in the script to reflect the place 
+   you'll actually put your *.conf files
+2. Put your *.conf files to that place and edit them. You'll find examples
+   inside..
+3. Put the .sh file somewhere adequate and make it executable for the user
+   running binkd.
+4. Edit your binkd.cfg and add a line like this:
+   exec "/usr/local/bin/bashreq.sh *S" *.req
+
+
+=== WARNING ===
+This is very early alpha for now and it will probably be forever. I just 
+put this together for my own personal needs and for now, this is sufficient..
+
+
+=== LICENCE ===
+Oh, c'mon..! ;)
