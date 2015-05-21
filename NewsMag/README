@@ -1,0 +1,176 @@
+NewsMag2k v0.1
+
+by Philipp Giebel <spam@stimpyrama.org>
+http://kuehlbox.ws
+telnet://kuelbox.ws
+
+
+
+INTRODUCTION
+
+This tool was one of the first, I ever wrote for public use back in 1994.
+The original was a DOS .exe written in TurboPascal and the source code is
+long lost.
+Since I started a BBS again in 2015 and I needed something exacly like this, 
+I re-coded it using Perl, so it runs on any operating system..
+
+
+USE
+
+NewsMag uses a simple textfile + some template files to create a good looking 
+ansi-file, you can use as news for and about your BBS.
+Don't confuse it with fUs "NewsCenter", which creates ansis of existing news: 
+With NewsMag you'll have to write the news yourself! ;)
+
+
+INSTALLATION
+
+None required. Simply run "newsmag.pl" or "newsmag.pl -h" for help.
+
+
+USAGE
+
+Simple:    ~# ./newsmag.pl
+Help:      ~# ./newsmag.pl -h
+More help: ~# ./newsmag.pl --longhelp
+
+By default, newsmag searches for the input text-file and all templates at 
+the directory, you're in while running the script, but you can provide 
+alternative paths and filenames for everything. Check "newsmag.pl -h" for 
+a list of all available options and their default values.
+
+
+INPUT FILE
+
+default: ./news.txt
+parameter: --infile=/path/to/your/news.txt
+
+You write news in this file using this very simple format:
+
+  <DATE>
+  <SUBJECT>
+  <CONTENT>
+  <MORE CONTENT>
+  <...>
+  @NEXT@
+  <DATE>
+  <SUBJECT>
+  <CONTENT>
+
+Order doesn't matter, NewsMag always sorts the input by date, newest first.
+
+
+TEMPLATES
+
+NewsMag comes with some template examples, you are free to use. But you can 
+also create your own using the examples and/or this description:
+
+- Header:
+  default: ./newshdr.ans
+  parameter: --filehdr=/path/to/your/headertemplate.ans
+
+  This file holds your header template to be displayed above all the news.
+  It has no special variables (yet)..
+
+- Footer:
+  default: ./newsftr.ans
+  parameter: --fileftr=/path/to/your/footertemplate.ans
+
+  This file holds your footer template to be displayed beneath all the news.
+  It can hold one special variable:
+
+  @COPYRIGHT@ - Will be replaced by a short copyright notice. If omitted,
+                the notice will be auto-appended below the footer.
+
+- Entries:
+  default: ./entryhdr.ans
+  parameter: --fileentry=/path/to/your/entrytemplate.ans
+
+  This file holds your entry-template used to display each news entry.
+  It must hold three special variables:
+
+  @DATE@     - Will be replaced by the first line of your entries at news.txt
+  @SUBJECT@  - Will be replaced by the second line of your entries at news.txt
+  @CONTENT@  - Will be replaced by all the lines between the second and the 
+               next one containing the tag "@NEXT@" (See section "INPUT FILE")
+               Also takes all characters to the left and repeats them on 
+               subsequent lines.
+
+  Padding:
+  You can pad these variables to fit into your template files by appending
+  "<length><direction>@".
+  e.g: 
+    @DATE@16L@     - This will pad the date to 16 characters by adding 
+                     whitespace to the left.
+    @SUBJECT@32R@  - This will pad the subject to 32 characters by adding
+                     whitespace to the right.
+
+  Wrapping:
+  Content lines are wrapped to 75 characters by default. Also, all characters 
+  to the left of the @CONTENT@ tag in your template.ans are repeated on 
+  subsequent lines.
+  You can change the line width by adding "<width>@" to the variable.
+  e.g:
+    @SUBJECT@70@   - This will wrap lines at 70 characters.
+
+
+If any of these template files are omitted or not found, NewsMag will use 
+very simple, hardcoded defaults.
+
+
+OUTPUT
+
+default: ./news.ans
+parameter: --outfile=/path/to/your/outputfile.ans
+
+Using all these different input files, NewsMag creates one huge ansi-file 
+containing all news entries from your news.txt.
+You can limit the news to be displayed with the option "--num=<num>"
+
+
+BBS CONFIGURATION
+
+Some BBS systems automaticaly display files called "news.ans" at the login 
+process if they have changed since the users last visit.
+some other systems have to be configured that way.
+
+MysticBBS
+
+For MysticBBS, I've attached a small .mps script you can include into your
+"prelogin" menu with the name of your news.ans inside the text directory 
+of your MysticBBS theme:
+
+  - (E)dit -> (M)enu Editor -> default (or your template) -> prelogin
+  - Press enter to edit the first entry called "FIRSTCMD"
+  - Press tab to edit the commands
+  - Navigate to a position in your login process, you'ld like the news 
+    to be displayed
+  - Press "/", then "i" to insert a new command
+  - Select (C)ommand: "(GX) Execute MPL program"
+  - Add (D)ata: newsmag news
+
+Exit and save.
+Now, users will see the news.ans inside the "text-directory" of your BBS
+(default: /mystic/text) everytime they log in and the file has changed 
+since their last login.
+
+At the moment, the attached .mps is simply the "onlyonce.mps", which comes 
+with MysticBBS, but with a "Pause Prompt" at the end.
+Probably, I'll enhance it later..
+
+
+CONTACT
+
+Philipp Giebel
+
+BBS:     telnet://kuehlbox.wtf
+WEB:     http://kuehlbox.wtf
+FidoNet: 2:240/5853
+E-Mail:  stimpy@kuehlbox.wtf
+
+
+COPYRIGHT
+
+This script has been released under BSD license. This basically means, 
+you can do whatever you want with it but you'll have to note me as the 
+original author.
