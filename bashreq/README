@@ -26,6 +26,13 @@ It supports regular files and file-magics.
 4. Edit your binkd.cfg and add a line like this:
    exec "/usr/local/bin/bashreq.sh *S" *.req
 
+   
+=== DEPENDENCIES ===
+- Bash (obviously)
+- grep
+- cut
+- head
+
 
 === WARNING ===
 This is very early alpha for now and it will probably be forever. I just 
